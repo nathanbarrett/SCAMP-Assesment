@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  node:
+    container_name: scamp_app
+    volumes: 
+      - ./:/var/www
+    build:
+      context: .
+      dockerfile: .docker/node.dockerfile
+    ports:
+      - "8080:8000"
+    networks:
+      - nodeapp-network
+    depends_on: 
+      - mongodb
+      
+  mongodb:
+    container_name: scamp_db
+    image: mongo
+    ports:
+      - "17017:27017"
+    networks:
+      - nodeapp-network
+
+networks:
+  nodeapp-network:
+    driver: bridge
